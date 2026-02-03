@@ -1,48 +1,125 @@
 # Colima UI
 
-Docker Desktop과 유사한 Colima 컨테이너 관리 UI 앱입니다.
+Docker Desktop과 유사한 컨테이너 관리 UI 앱입니다.
 
 ## 요구 사항
 
 - [Node.js](https://nodejs.org/) (v18 이상)
 - [Rust](https://www.rust-lang.org/tools/install)
-- [Colima](https://github.com/abiosoft/colima) (Docker 런타임)
+- Docker 런타임 (Colima, Docker Desktop, 또는 Docker Engine)
 
-### Rust 설치
+---
 
+## 플랫폼별 설치
+
+### macOS
+
+#### Rust 설치
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source ~/.cargo/env
 ```
 
-### Colima 설치 (macOS)
-
+#### Docker 런타임 (Colima 권장)
 ```bash
 brew install colima docker
 colima start
 ```
 
-## 설치
+---
+
+### Windows
+
+#### 1. Rust 설치
+
+[rustup-init.exe](https://win.rustup.rs/) 다운로드 후 실행
+
+또는 PowerShell에서:
+```powershell
+winget install Rustlang.Rustup
+```
+
+#### 2. Visual Studio C++ Build Tools 설치
+
+Rust 컴파일에 필요합니다.
+
+[Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) 다운로드 후:
+- "C++ build tools" 워크로드 선택
+- Windows 10/11 SDK 포함
+
+또는 winget으로:
+```powershell
+winget install Microsoft.VisualStudio.2022.BuildTools
+```
+
+#### 3. WebView2 런타임
+
+Windows 10/11에는 기본 설치되어 있습니다. 없다면:
+[WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/) 설치
+
+#### 4. Docker 런타임
+
+**옵션 A: Docker Desktop (권장)**
+```powershell
+winget install Docker.DockerDesktop
+```
+
+**옵션 B: WSL2 + Docker**
+```powershell
+# WSL2 설치
+wsl --install
+
+# WSL2 내에서 Docker 설치
+sudo apt update
+sudo apt install docker.io
+sudo service docker start
+```
+
+---
+
+### Linux (Ubuntu/Debian)
+
+#### Rust 설치
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source ~/.cargo/env
+```
+
+#### 시스템 의존성
+```bash
+sudo apt update
+sudo apt install libwebkit2gtk-4.1-dev build-essential curl wget file \
+  libssl-dev libayatana-appindicator3-dev librsvg2-dev
+```
+
+#### Docker 설치
+```bash
+sudo apt install docker.io
+sudo usermod -aG docker $USER
+# 로그아웃 후 다시 로그인
+```
+
+---
+
+## 설치 및 실행
 
 ```bash
+# 의존성 설치
 npm install
-```
 
-## 실행
-
-### 개발 모드
-
-```bash
+# 개발 모드 실행
 npm run tauri dev
-```
 
-### 프로덕션 빌드
-
-```bash
+# 프로덕션 빌드
 npm run tauri build
 ```
 
-빌드된 앱은 `src-tauri/target/release/bundle/` 폴더에 생성됩니다.
+빌드 결과물 위치:
+- **macOS**: `src-tauri/target/release/bundle/dmg/`
+- **Windows**: `src-tauri/target/release/bundle/msi/`
+- **Linux**: `src-tauri/target/release/bundle/deb/`
+
+---
 
 ## 기능
 
@@ -66,6 +143,8 @@ npm run tauri build
 
 ### Builds 탭
 - 빌드 히스토리 (예정)
+
+---
 
 ## 기술 스택
 
