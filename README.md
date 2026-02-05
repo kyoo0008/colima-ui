@@ -101,7 +101,87 @@ sudo usermod -aG docker $USER
 
 ---
 
-## 설치 및 실행
+## 빠른 시작
+
+### macOS
+
+```bash
+# 저장소 클론
+git clone https://github.com/your-repo/colima-ui.git
+cd colima-ui
+
+# 의존성 설치
+npm install
+
+# 런처 스크립트 전역 등록 (선택사항)
+sudo ln -s $(pwd)/colima-ui.sh /usr/local/bin/colima-ui
+```
+
+#### 런처 스크립트 사용법
+
+| 명령어 | 설명 |
+|--------|------|
+| `colima-ui` | 빌드된 앱 실행 |
+| `colima-ui --dev` 또는 `-d` | 개발 모드 실행 |
+| `colima-ui --build` 또는 `-b` | 앱 빌드 |
+| `colima-ui --install` 또는 `-i` | /Applications에 설치 |
+| `colima-ui --help` 또는 `-h` | 도움말 |
+
+---
+
+### Windows
+
+```powershell
+# 저장소 클론
+git clone https://github.com/your-repo/colima-ui.git
+cd colima-ui
+
+# 의존성 설치
+npm install
+```
+
+#### 런처 스크립트 사용법
+
+```powershell
+# 도움말
+.\colima-ui.ps1 -Help
+
+# 개발 모드 실행
+.\colima-ui.ps1 -Dev
+
+# 앱 빌드
+.\colima-ui.ps1 -Build
+
+# MSI 설치 프로그램 실행
+.\colima-ui.ps1 -Install
+
+# 빌드된 앱 실행 (옵션 없이)
+.\colima-ui.ps1
+```
+
+#### 전역 접근 설정 (선택사항)
+
+PowerShell 프로파일에 alias 추가:
+
+```powershell
+# 프로파일 열기 (없으면 생성)
+if (!(Test-Path $PROFILE)) { New-Item $PROFILE -Force }
+notepad $PROFILE
+
+# 아래 내용 추가
+function colima-ui { & "C:\path\to\colima-ui\colima-ui.ps1" @args }
+```
+
+또는 PATH에 프로젝트 폴더 추가:
+
+```powershell
+# 시스템 환경 변수에 추가 (관리자 권한 필요)
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\path\to\colima-ui", "Machine")
+```
+
+---
+
+## 수동 빌드 및 실행
 
 ```bash
 # 의존성 설치
