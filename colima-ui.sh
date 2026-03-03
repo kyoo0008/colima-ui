@@ -19,7 +19,21 @@ show_help() {
     echo "옵션 없이 실행하면 빌드된 앱을 실행합니다."
 }
 
+ensure_colima_running() {
+    if ! colima status &>/dev/null; then
+        echo "Colima가 실행 중이 아닙니다. Colima를 시작합니다..."
+        colima start
+        if [ $? -ne 0 ]; then
+            echo "Colima 시작에 실패했습니다."
+            exit 1
+        fi
+        echo "Colima가 정상적으로 시작되었습니다."
+    fi
+}
+
 run_app() {
+    ensure_colima_running
+
     if [ -d "$BUNDLE_PATH" ]; then
         echo "Colima UI 실행 중..."
         open "$BUNDLE_PATH"
@@ -37,11 +51,16 @@ run_app() {
 }
 
 run_dev() {
+    ensure_colima_running
+
     echo "개발 모드로 실행 중..."
     cd "$SCRIPT_DIR" && npm run tauri dev
 }
 
 build_app() {
+
+    ensure_colima_running
+
     echo "Colima UI 빌드 중..."
     cd "$SCRIPT_DIR" && npm run tauri build
 

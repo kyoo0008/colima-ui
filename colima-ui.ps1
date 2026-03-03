@@ -20,7 +20,22 @@ function Show-Help {
     Write-Host "옵션 없이 실행하면 빌드된 앱을 실행합니다."
 }
 
+function Ensure-ColimaRunning {
+    $colimaStatus = colima status 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Colima가 실행 중이 아닙니다. Colima를 시작합니다..."
+        colima start
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Colima 시작에 실패했습니다."
+            exit 1
+        }
+        Write-Host "Colima가 정상적으로 시작되었습니다."
+    }
+}
+
 function Start-App {
+    Ensure-ColimaRunning
+
     # 빌드된 exe 확인
     if (Test-Path $ExePath) {
         Write-Host "Colima UI 실행 중..."
@@ -45,12 +60,16 @@ function Start-App {
 }
 
 function Start-Dev {
+    Ensure-ColimaRunning
+
     Write-Host "개발 모드로 실행 중..."
     Set-Location $ScriptDir
     npm run tauri dev
 }
 
 function Start-Build {
+    Ensure-ColimaRunning
+
     Write-Host "Colima UI 빌드 중..."
     Set-Location $ScriptDir
     npm run tauri build
