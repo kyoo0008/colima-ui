@@ -107,7 +107,7 @@ sudo usermod -aG docker $USER
 
 ```bash
 # 저장소 클론
-git clone https://github.com/your-repo/colima-ui.git
+git clone https://github.com/kyoo0008/colima-ui.git
 cd colima-ui
 
 # 의존성 설치
@@ -133,7 +133,7 @@ sudo ln -s $(pwd)/colima-ui.sh /usr/local/bin/colima-ui
 
 ```powershell
 # 저장소 클론
-git clone https://github.com/your-repo/colima-ui.git
+git clone https://github.com/kyoo0008/colima-ui.git
 cd colima-ui
 
 # 의존성 설치
